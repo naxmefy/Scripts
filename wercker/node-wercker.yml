@@ -1,0 +1,26 @@
+# specify node version
+box: node:4.5.0
+
+services:
+    # - postgres
+    # http://devcenter.wercker.com/docs/services/postgresql.html
+
+    - mongo
+    # http://devcenter.wercker.com/docs/services/mongodb.html
+    # - redis
+build:
+  steps:
+    - script:
+        name: export MONGODB_URI
+        code: export MONGODB_URI=mongodb://$MONGO_PORT_27017_TCP_ADDR:$MONGO_PORT_27017_TCP_PORT/test
+        
+    - npm-install
+    - npm-test
+    
+
+
+deploy:
+    steps:
+      - heroku-deploy:
+          keep-repository: true
+          # DO NOT FORGET TO SET HEROKU API KEY TO $HEROKU_KEY
