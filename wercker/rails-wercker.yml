@@ -16,7 +16,9 @@ build:
     - script:
         name: set database url
         code: export DATABASE_URL=postgres://$POSTGRES_ENV_POSTGRES_USER:$POSTGRES_ENV_POSTGRES_PASSWORD@$POSTGRES_PORT_5432_TCP_ADDR:$POSTGRES_PORT_5432_TCP_PORT/$POSTGRES_ENV_POSTGRES_DB
+    
     - bundle-install
+    
     - script:
         name: create db
         code: bundle exec rake db:create RAILS_ENV=test
