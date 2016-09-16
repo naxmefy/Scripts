@@ -1,25 +1,22 @@
-# specify ruby verison
+# specify ruby version
 box: ruby:2.3.1
 services:
   # http://devcenter.wercker.com/docs/services/postgresql.html
   - id: postgres
     env:
-      POSTGRES_PASSWORD: password
-      POSTGRES_USER: user   # optional
-      POSTGRES_DB: test     # optional
+      POSTGRES_PASSWORD: ourlittlesecret
+      POSTGRES_USER: myuser  # optional
+      POSTGRES_DB: bico_test
 
   # - mongo
   # http://devcenter.wercker.com/docs/services/mongodb.html
-
+  
 build:
   steps:
-    
     - script:
-        name: export DATABASE_URL
+        name: set database url
         code: export DATABASE_URL=postgres://$POSTGRES_ENV_POSTGRES_USER:$POSTGRES_ENV_POSTGRES_PASSWORD@$POSTGRES_PORT_5432_TCP_ADDR:$POSTGRES_PORT_5432_TCP_PORT/$POSTGRES_ENV_POSTGRES_DB
-    - script:
-        name: env
-        code: env
+    - bundle-install
     - script:
         name: create db
         code: bundle exec rake db:create RAILS_ENV=test
